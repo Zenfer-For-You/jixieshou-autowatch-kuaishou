@@ -13,6 +13,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+
 import com.alibaba.fastjson.JSON;
 import com.cmlanche.adapter.TaskListAdapter;
 import com.cmlanche.application.MyApplication;
@@ -31,12 +37,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
@@ -54,6 +54,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MyApplication.getAppInstance().setMainActivity(this);
+
+        AppInfo appInfo = new AppInfo();
+        appInfo.setName("抖音");
+        appInfo.setIcon(R.mipmap.ic_launcher_round);
+        appInfo.setPkgName("com.ss.android.ugc.aweme.lite");
+        appInfo.setPeriod(3000);
+        appInfo.setFree(true);
+        appInfos.add(appInfo);
 
         cardView = findViewById(R.id.newTaskCardView);
         cardView.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         descriptionView = findViewById(R.id.description);
 
         startBtn = findViewById(R.id.startBtn);
+
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(!checkPkgValid()) {
+                if (!checkPkgValid()) {
                     return;
                 }
 
@@ -207,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 删除某个任务
      *
-     * @param uuid 替换某任务
+     * @param uuid    替换某任务
      * @param appInfo
      */
     private void updateAppInfo(String uuid, AppInfo appInfo) {
@@ -243,15 +252,15 @@ public class MainActivity extends AppCompatActivity {
      * 分享的时候调用，动态申请权限
      */
     private void requestSharePermission() {
-        if(Build.VERSION.SDK_INT>=23){
-            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_EXTERNAL_STORAGE};
-            ActivityCompat.requestPermissions(this,mPermissionList,123);
+        if (Build.VERSION.SDK_INT >= 23) {
+            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_EXTERNAL_STORAGE};
+            ActivityCompat.requestPermissions(this, mPermissionList, 123);
         }
     }
 
     private boolean checkPkgValid() {
-        for(AppInfo appInfo: appInfos) {
-            if(!isAppExist(appInfo.getPkgName())) {
+        for (AppInfo appInfo : appInfos) {
+            if (!isAppExist(appInfo.getPkgName())) {
                 Toast.makeText(this, String.format("请先安装应用「%s」", appInfo.getAppName()), Toast.LENGTH_LONG).show();
                 return false;
             }
@@ -263,8 +272,7 @@ public class MainActivity extends AppCompatActivity {
         ApplicationInfo info;
         try {
             info = getPackageManager().getApplicationInfo(pkgName, 0);
-        }
-        catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             info = null;
         }

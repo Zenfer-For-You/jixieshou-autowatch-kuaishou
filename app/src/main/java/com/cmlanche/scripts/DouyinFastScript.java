@@ -37,7 +37,7 @@ public class DouyinFastScript extends BaseScript {
                 }
             }
         }
-
+        ActionUtils.click(findByText("已领取"));
         if(!isCheckedBootom) {
             NodeInfo nodeInfo = findById("kh");
             if(nodeInfo != null) {
