@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         appInfo.setName("抖音");
         appInfo.setIcon(R.mipmap.ic_launcher_round);
         appInfo.setPkgName("com.ss.android.ugc.aweme.lite");
-        appInfo.setPeriod(3000);
+        appInfo.setPeriod(1);
         appInfo.setFree(true);
         appInfos.add(appInfo);
 

@@ -26,21 +26,43 @@ public class DouyinFastScript extends BaseScript {
 
     @Override
     protected void executeScript() {
-        if(!isCheckedWozhidaole) {
+//        swipeOnMainActivity();
+        goTaskPageAndDoTask();
+
+    }
+
+    private void goTaskPageAndDoTask() {
+        // 右上角的红包按键 lcc
+        NodeInfo lcc = findById("lcc");
+        if (lcc != null) {
+            // 还在首页,点击右上角红包按键进入任务页面
+            ActionUtils.click(lcc);
+        }
+
+        NodeInfo dailyTask = findByText("日常任务");
+        if (dailyTask != null) {
+            // 已进入任务页面
+        }
+
+    }
+
+    private void swipeOnMainActivity() {
+        if (!isCheckedWozhidaole) {
             // 检查是否有青少年模式
             NodeInfo nodeInfo = findByText("*为呵护未成年人健康*");
-            if(nodeInfo != null) {
+            if (nodeInfo != null) {
                 nodeInfo = findByText("我知道了");
-                if(nodeInfo != null) {
+                if (nodeInfo != null) {
                     isCheckedWozhidaole = true;
                     ActionUtils.click(nodeInfo);
                 }
             }
         }
-        ActionUtils.click(findByText("已领取"));
-        if(!isCheckedBootom) {
+        if (!isCheckedBootom) {
+            // 首页底部 tab
             NodeInfo nodeInfo = findById("kh");
-            if(nodeInfo != null) {
+            if (nodeInfo != null) {
+                // 获取 首页底部 tab 的高度
                 bottomMargin = MyApplication.getAppInstance().getScreenHeight() - nodeInfo.getRect().top + 10;
                 isCheckedBootom = true;
             }
@@ -52,6 +74,7 @@ public class DouyinFastScript extends BaseScript {
 
         new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
     }
+
 
     @Override
     protected int getMinSleepTime() {
@@ -66,7 +89,7 @@ public class DouyinFastScript extends BaseScript {
     @Override
     public boolean isDestinationPage() {
         // 检查当前包名是否有本年应用
-        if(!isTargetPkg()) {
+        if (!isTargetPkg()) {
             return false;
         }
         return true;
