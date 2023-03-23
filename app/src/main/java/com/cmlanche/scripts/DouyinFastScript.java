@@ -161,8 +161,13 @@ public class DouyinFastScript extends BaseScript {
     private void successfulRewardClaim() {
         NodeInfo watchAd = findByText("领取成功");
         if (watchAd != null) {
+            Log.e(TAG, "领取成功");
             ActionUtils.click(watchAd);
+            // 还原回默认的时间间隔
+            minSleepTime = MIN_SLEEP_TIME;
+            maxSleepTime = MAX_SLEEP_TIME;
         }
+        Log.e(TAG, "检测不到领取成功");
     }
 
 
