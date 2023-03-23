@@ -32,7 +32,7 @@ public class DouyinFastScript extends BaseScript {
     }
 
     private void goTaskPageAndDoTask() {
-        // 右上角的红包按键 lcc
+        // 当前处于首页,点击右上角的红包按键 lcc 进入任务页面
         NodeInfo lcc = findById("lcc");
         if (lcc != null) {
             // 还在首页,点击右上角红包按键进入任务页面
@@ -42,9 +42,62 @@ public class DouyinFastScript extends BaseScript {
         NodeInfo dailyTask = findByText("日常任务");
         if (dailyTask != null) {
             // 已进入任务页面
+            // 看广告任务
+            if (doWatchAdTask()) return;
+            // 去逛街任务
+            if (doShoppingTask()) return;
         }
 
+        successfulRewardClaim();
     }
+
+    /**
+     * 执行看广告任务
+     */
+    private boolean doWatchAdTask() {
+        NodeInfo watchAd = findByText("去领取");
+        if (watchAd != null) {
+            ActionUtils.click(watchAd);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 执行逛街任务
+     */
+    private boolean doShoppingTask() {
+        NodeInfo shopping = findByText("去逛街");
+        if (shopping != null) {
+            ActionUtils.click(shopping);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean swipeShopping(){
+        NodeInfo shopping = findByText("去逛街");
+        if (shopping != null) {
+            int x = MyApplication.getAppInstance().getScreenWidth() / 2;
+            int fromY = MyApplication.getAppInstance().getScreenHeight() - bottomMargin;
+            int toY = 100;
+
+            new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 判断领取简历是否成功
+     */
+    private void successfulRewardClaim() {
+        NodeInfo watchAd = findByText("领取成功");
+        if (watchAd != null) {
+            ActionUtils.click(watchAd);
+        }
+    }
+
 
     private void swipeOnMainActivity() {
         if (!isCheckedWozhidaole) {
