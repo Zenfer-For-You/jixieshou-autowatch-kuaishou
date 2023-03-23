@@ -1,5 +1,6 @@
 package com.cmlanche.core.search;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 
@@ -31,7 +32,8 @@ public class FindByText {
 
         if (treeInfo != null && treeInfo.getRects() != null) {
             for (NodeInfo rect : treeInfo.getRects()) {
-                if (isMatch(rect, text)) {
+                String nodeText = rect.getText();
+                if (!TextUtils.isEmpty(nodeText) && nodeText.contains(text)) {
                     return rect;
                 }
             }
