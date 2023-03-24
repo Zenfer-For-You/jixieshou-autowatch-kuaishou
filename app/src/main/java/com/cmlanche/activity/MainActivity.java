@@ -25,7 +25,7 @@ import com.cmlanche.application.MyApplication;
 import com.cmlanche.common.DeviceUtils;
 import com.cmlanche.common.SPService;
 import com.cmlanche.common.leancloud.CheckUpdateTask;
-import com.cmlanche.core.service.MyAccessbilityService;
+import com.cmlanche.core.service.MyAccessibilityService;
 import com.cmlanche.core.utils.AccessibilityUtils;
 import com.cmlanche.floatwindow.PermissionUtil;
 import com.cmlanche.jixieshou.R;
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                startService(new Intent(getApplicationContext(), MyAccessbilityService.class));
+                startService(new Intent(getApplicationContext(), MyAccessibilityService.class));
                 MyApplication.getAppInstance().startTask(appInfos);
             }
         });

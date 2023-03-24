@@ -15,6 +15,7 @@ import com.cmlanche.model.AppInfo;
 public class DouyinFastScript extends BaseScript {
 
     private static final String TAG = "Zenfer";
+
     private static final int MAX_SLEEP_TIME = 20000;
     private static final int MIN_SLEEP_TIME = 10000;
 
@@ -41,11 +42,11 @@ public class DouyinFastScript extends BaseScript {
     }
 
     private void goTaskPageAndDoTask() {
+        // 检测静态广告业
+        if (checkStaticAdPage()) return;
+
         // 当前处于首页,点击右上角的红包按键 lcc 进入任务页面
         if (goTaskHomePage()) return;
-
-        // 看广告之后自动跳转下载页面,需要再返回上一层
-        if (closeAdDownloadPage()) return;
 
         NodeInfo dailyTask = findByText("日常任务");
         if (dailyTask != null) {
@@ -68,6 +69,21 @@ public class DouyinFastScript extends BaseScript {
     }
 
     /**
+     * 检测当前页面是否静态广告页
+     */
+    private boolean checkStaticAdPage() {
+        if (MyApplication.getAppInstance().getAccessbilityService().isCurrentStaticAdActivity) {
+            Log.e(TAG, "关闭静态广告页面");
+            MyApplication.getAppInstance().getAccessbilityService().isCurrentStaticAdActivity = false;
+            ActionUtils.pressBack();
+            minSleepTime = 2000;
+            maxSleepTime = 3000;
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 点击进入任务页面
      */
     private boolean goTaskHomePage() {
@@ -78,22 +94,6 @@ public class DouyinFastScript extends BaseScript {
             ActionUtils.click(lcc);
             minSleepTime = 5000;
             maxSleepTime = 8000;
-        }
-        Log.e(TAG, "检测不到立即下载");
-        return false;
-    }
-
-    /**
-     * 关闭广告下载页面
-     */
-    private boolean closeAdDownloadPage() {
-        NodeInfo watchAd = findByText("立即下载");
-        if (watchAd != null) {
-            Log.e(TAG, "回到一个页面");
-            ActionUtils.pressBack();
-            minSleepTime = 2000;
-            maxSleepTime = 3000;
-            return true;
         }
         Log.e(TAG, "检测不到立即下载");
         return false;
@@ -197,6 +197,7 @@ public class DouyinFastScript extends BaseScript {
             // 还原回默认的时间间隔
             minSleepTime = MIN_SLEEP_TIME;
             maxSleepTime = MAX_SLEEP_TIME;
+            return;
         }
         Log.e(TAG, "检测不到领取成功");
     }

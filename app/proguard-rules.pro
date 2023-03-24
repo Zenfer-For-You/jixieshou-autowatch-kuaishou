@@ -162,5 +162,5 @@
 }
 #友盟混淆结束
 
--keep class com.cmlanche.core.service.MyAccessbilityService {*;}
+-keep class com.cmlanche.core.service.MyAccessibilityService {*;}
 -keep class com.cmlanche.application.MyApplication {*;}

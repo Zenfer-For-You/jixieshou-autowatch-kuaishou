@@ -19,7 +19,7 @@ import com.cmlanche.common.SPService;
 import com.cmlanche.common.leancloud.InitTask;
 import com.cmlanche.core.bus.BusEvent;
 import com.cmlanche.core.bus.BusManager;
-import com.cmlanche.core.service.MyAccessbilityService;
+import com.cmlanche.core.service.MyAccessibilityService;
 import com.cmlanche.core.utils.Logger;
 import com.cmlanche.core.utils.Utils;
 import com.cmlanche.floatwindow.FloatWindow;
@@ -30,15 +30,11 @@ import com.cmlanche.jixieshou.R;
 import com.cmlanche.model.AppInfo;
 import com.cmlanche.model.TaskInfo;
 import com.cmlanche.scripts.TaskExecutor;
-import com.cmlanche.widget.PointView;
 import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import cn.leancloud.AVOSCloud;
 
@@ -56,7 +52,7 @@ public class MyApplication extends Application {
 
     private static final String TAG = "MainActivity";
 
-    private MyAccessbilityService accessbilityService;
+    private MyAccessibilityService accessbilityService;
     protected static MyApplication appInstance;
     private int screenWidth;
     private int screenHeight;
@@ -88,7 +84,7 @@ public class MyApplication extends Application {
         switch (event.getType()) {
             case set_accessiblity:
                 Toast.makeText(getApplicationContext(), "服务启动成功！", Toast.LENGTH_LONG).show();
-                this.accessbilityService = (MyAccessbilityService) event.getData();
+                this.accessbilityService = (MyAccessibilityService) event.getData();
                 break;
             case start_task:
                 this.isStarted = true;
@@ -167,7 +163,7 @@ public class MyApplication extends Application {
         return appInstance;
     }
 
-    public MyAccessbilityService getAccessbilityService() {
+    public MyAccessibilityService getAccessbilityService() {
         return accessbilityService;
     }
 
