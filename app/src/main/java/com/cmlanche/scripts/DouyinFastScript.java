@@ -55,14 +55,17 @@ public class DouyinFastScript extends BaseScript {
             if (signInNow()) return;
             // 签到完立即点击看广告视频再赚
             if (watchAdAfterOpenTreasureChests()) return;
-            // 看广告任务
-            if (doWatchAdTask()) return;
-            // 去逛街任务
-            if (doShoppingTask()) return;
             // 开宝箱领金币
             if (openTreasureChests()) return;
             // 开宝箱后立即点弹窗看广告视频
             if (watchAdAfterOpenTreasureChests()) return;
+            // 看广告任务
+            if (doWatchAdTask()) return;
+            // 去逛街任务
+//            if (doShoppingTask()) return;
+            // 滑动至到时间结束领取到奖励
+//            if (swipeShopping()) return;
+
         }
 
         successfulRewardClaim();
@@ -123,6 +126,8 @@ public class DouyinFastScript extends BaseScript {
         if (watchAd != null) {
             Log.e(TAG, "开始执行看广告任务");
             ActionUtils.click(watchAd);
+            minSleepTime = 30000;
+            maxSleepTime = 34000;
             return true;
         }
         Log.e(TAG, "检测不到去领取");
@@ -137,6 +142,8 @@ public class DouyinFastScript extends BaseScript {
         if (shopping != null) {
             Log.e(TAG, "开始执行逛街任务");
             ActionUtils.click(shopping);
+            minSleepTime = 5000;
+            maxSleepTime = 6000;
             return true;
         }
         Log.e(TAG, "检测不到去逛街");
@@ -146,11 +153,9 @@ public class DouyinFastScript extends BaseScript {
     private boolean swipeShopping() {
         NodeInfo shopping = findByText("去逛街");
         if (shopping != null) {
-            int x = MyApplication.getAppInstance().getScreenWidth() / 2;
-            int fromY = MyApplication.getAppInstance().getScreenHeight() - bottomMargin;
-            int toY = 100;
-
-            new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
+            ActionUtils.scrollForward();
+            minSleepTime = 1000;
+            maxSleepTime = 3000;
             return true;
         }
         return false;
@@ -164,6 +169,8 @@ public class DouyinFastScript extends BaseScript {
         if (openTreasureChests != null) {
             Log.e(TAG, "开始执行开宝箱得金币");
             ActionUtils.click(openTreasureChests);
+            minSleepTime = 4000;
+            maxSleepTime = 6000;
             return true;
         }
         Log.e(TAG, "检测不到开宝箱得金币");

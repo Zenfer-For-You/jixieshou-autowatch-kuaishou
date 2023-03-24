@@ -11,6 +11,21 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            keyAlias "zenfer"
+            storeFile file("../jixieshou")
+            storePassword "123456"
+            keyPassword "123456"
+        }
+        debug {
+            keyAlias "zenfer"
+            storeFile file("../jixieshou")
+            storePassword "123456"
+            keyPassword "123456"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
