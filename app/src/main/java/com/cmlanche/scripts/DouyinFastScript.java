@@ -42,11 +42,10 @@ public class DouyinFastScript extends BaseScript {
 
     private void goTaskPageAndDoTask() {
         // 当前处于首页,点击右上角的红包按键 lcc 进入任务页面
-        NodeInfo lcc = findById("lcc");
-        if (lcc != null) {
-            // 还在首页,点击右上角红包按键进入任务页面
-            ActionUtils.click(lcc);
-        }
+        if (goTaskHomePage()) return;
+
+        // 看广告之后自动跳转下载页面,需要再返回上一层
+        if (closeAdDownloadPage()) return;
 
         NodeInfo dailyTask = findByText("日常任务");
         if (dailyTask != null) {
@@ -66,6 +65,38 @@ public class DouyinFastScript extends BaseScript {
         }
 
         successfulRewardClaim();
+    }
+
+    /**
+     * 点击进入任务页面
+     */
+    private boolean goTaskHomePage() {
+        NodeInfo lcc = findById("lcc");
+        if (lcc != null) {
+            Log.e(TAG, "右上角红包按键进入任务页面");
+            // 还在首页,点击右上角红包按键进入任务页面
+            ActionUtils.click(lcc);
+            minSleepTime = 5000;
+            maxSleepTime = 8000;
+        }
+        Log.e(TAG, "检测不到立即下载");
+        return false;
+    }
+
+    /**
+     * 关闭广告下载页面
+     */
+    private boolean closeAdDownloadPage() {
+        NodeInfo watchAd = findByText("立即下载");
+        if (watchAd != null) {
+            Log.e(TAG, "回到一个页面");
+            ActionUtils.pressBack();
+            minSleepTime = 2000;
+            maxSleepTime = 3000;
+            return true;
+        }
+        Log.e(TAG, "检测不到立即下载");
+        return false;
     }
 
     /**
