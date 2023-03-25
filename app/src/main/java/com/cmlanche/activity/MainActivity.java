@@ -55,14 +55,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         MyApplication.getAppInstance().setMainActivity(this);
 
-        AppInfo appInfo = new AppInfo();
-        appInfo.setName("抖音");
-        appInfo.setIcon(R.mipmap.ic_launcher_round);
-        appInfo.setPkgName("com.ss.android.ugc.aweme.lite");
-        appInfo.setPeriod(1);
-        appInfo.setFree(true);
-        appInfos.add(appInfo);
-
         cardView = findViewById(R.id.newTaskCardView);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +134,14 @@ public class MainActivity extends AppCompatActivity {
         if (taskInfo == null || taskInfo.getAppInfos() == null || taskInfo.getAppInfos().isEmpty()) {
             cardView.setVisibility(View.VISIBLE);
             fab.setVisibility(View.GONE);
+            AppInfo appInfo = new AppInfo();
+            appInfo.setName("抖音");
+            appInfo.setIcon(R.mipmap.ic_launcher_round);
+            appInfo.setPkgName("com.ss.android.ugc.aweme.lite");
+            appInfo.setPeriod(1);
+            appInfo.setFree(true);
+            appInfos.add(appInfo);
+            taskListAdapter.notifyDataSetChanged();
         } else {
             cardView.setVisibility(View.GONE);
             fab.setVisibility(View.VISIBLE);
