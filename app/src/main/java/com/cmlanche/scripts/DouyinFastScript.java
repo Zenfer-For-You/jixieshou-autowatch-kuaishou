@@ -16,8 +16,8 @@ public class DouyinFastScript extends BaseScript {
 
     private static final String TAG = "Zenfer";
 
-    private static final int MAX_SLEEP_TIME = 20000;
-    private static final int MIN_SLEEP_TIME = 10000;
+    private static final int MAX_SLEEP_TIME = 10000;
+    private static final int MIN_SLEEP_TIME = 5000;
 
     // 是否有检查"我知道了"
     private boolean isCheckedWozhidaole;
@@ -142,8 +142,8 @@ public class DouyinFastScript extends BaseScript {
         if (watchAd != null && button != null) {
             Log.e(TAG, "开始执行看广告任务");
             ActionUtils.click(watchAd);
-            minSleepTime = 30000;
-            maxSleepTime = 34000;
+            minSleepTime = 3000;
+            maxSleepTime = 5000;
             return true;
         }
         Log.e(TAG, "检测不到去领取");
@@ -154,8 +154,9 @@ public class DouyinFastScript extends BaseScript {
      * 执行逛街任务
      */
     private boolean doShoppingTask() {
+        NodeInfo matchText = findByText("浏览低价商品90秒");
         NodeInfo shopping = findByText("去逛街");
-        if (shopping != null) {
+        if (shopping != null && matchText != null) {
             Log.e(TAG, "开始执行逛街任务");
             ActionUtils.click(shopping);
             minSleepTime = 1000;
@@ -210,8 +211,8 @@ public class DouyinFastScript extends BaseScript {
         if (openTreasureChests != null) {
             Log.e(TAG, "开始执行看广告视频再赚");
             ActionUtils.click(openTreasureChests);
-            minSleepTime = 30000;
-            maxSleepTime = 34000;
+            minSleepTime = 3000;
+            maxSleepTime = 5000;
             return true;
         }
         Log.e(TAG, "检测不到看广告视频再赚");
@@ -243,8 +244,8 @@ public class DouyinFastScript extends BaseScript {
         if (watchAd != null && getReward != null) {
             Log.e(TAG, "开始执行再看一个视频任务");
             ActionUtils.click(getReward);
-            minSleepTime = 30000;
-            maxSleepTime = 34000;
+            minSleepTime = 3000;
+            maxSleepTime = 4000;
             return true;
         }
         Log.e(TAG, "检测不到再看一个视频任务");

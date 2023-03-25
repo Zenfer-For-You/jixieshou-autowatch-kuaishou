@@ -62,6 +62,9 @@ public class MyApplication extends Application {
     private boolean isFirstConnectAccessbilityService = false;
     private boolean isStarted = false;
 
+    private int currentX = 0, currentY = 0;
+    private boolean isLongClick = true;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -92,7 +95,7 @@ public class MyApplication extends Application {
                 setFloatText("总执行时间：" + Utils.getTimeDescription(time));
                 break;
             case pause_byhand:
-                if(isStarted) {
+                if (isStarted) {
                     setFloatText("机械手已被您暂停");
                 }
                 break;
@@ -102,7 +105,7 @@ public class MyApplication extends Application {
                 }
                 break;
             case pause_becauseof_not_destination_page:
-                if(isStarted) {
+                if (isStarted) {
                     // String reason = (String) event.getData();
                     setFloatText("非目标页面，机械手已暂停");
                 }
@@ -204,7 +207,7 @@ public class MyApplication extends Application {
                 .setY(0)
                 .setX(0)
                 .setFilter(false, MainActivity.class, NewOrEditTaskActivity.class, TaskTypeListActivity.class)
-                .setMoveType(MoveType.inactive)
+                .setMoveType(MoveType.active)
                 .setMoveStyle(500, new BounceInterpolator())
                 .setViewStateListener(mViewStateListener)
                 .setPermissionListener(new PermissionListener() {
@@ -230,7 +233,7 @@ public class MyApplication extends Application {
                     // 服务岗连接上，可以点击快速启动，不需要跳转到机械手app去启动
                     isFirstConnectAccessbilityService = false;
                     startTask(taskInfo.getAppInfos());
-                } else if(isStarted) {
+                } else if (isStarted) {
                     // 已启动，则点击会触发暂停
                     if (TaskExecutor.getInstance().isForcePause()) {
                         TaskExecutor.getInstance().setForcePause(false);
@@ -249,6 +252,7 @@ public class MyApplication extends Application {
         floatView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                if (!isLongClick) return false;
                 TaskExecutor.getInstance().stop(true);
                 Toast.makeText(getApplicationContext(), "机械手已暂停", Toast.LENGTH_LONG).show();
                 PackageUtils.startSelf();
@@ -267,6 +271,13 @@ public class MyApplication extends Application {
     private ViewStateListener mViewStateListener = new ViewStateListener() {
         @Override
         public void onPositionUpdate(int x, int y) {
+            if (x == currentX && y == currentY) {
+                isLongClick = true;
+            } else {
+                isLongClick = false;
+                currentX = x;
+                currentY = y;
+            }
             Log.d(TAG, "onPositionUpdate: x=" + x + " y=" + y);
         }
 
