@@ -62,11 +62,13 @@ public class DouyinFastScript extends BaseScript {
             // 看广告任务
             if (doWatchAdTask()) return;
             // 去逛街任务
-//            if (doShoppingTask()) return;
-            // 滑动至到时间结束领取到奖励
-//            if (swipeShopping()) return;
-
+            if (doShoppingTask()) return;
         }
+        // 滑动至到时间结束领取到奖励
+        if (swipeShopping()) return;
+
+        if (checkReWatchAdDialog()) return;
+        if (appraiseDialog()) return;
 
         successfulRewardClaim();
     }
@@ -97,8 +99,18 @@ public class DouyinFastScript extends BaseScript {
             ActionUtils.click(lcc);
             minSleepTime = 5000;
             maxSleepTime = 8000;
+            return true;
         }
-        Log.e(TAG, "检测不到立即下载");
+        NodeInfo lc3 = findById("lc3");
+        if (lc3 != null) {
+            Log.e(TAG, "右上角红包按键进入任务页面");
+            // 还在首页,点击右上角红包按键进入任务页面
+            ActionUtils.click(lc3);
+            minSleepTime = 5000;
+            maxSleepTime = 8000;
+            return true;
+        }
+        Log.e(TAG, "检测不到右上角红包按键");
         return false;
     }
 
@@ -122,8 +134,12 @@ public class DouyinFastScript extends BaseScript {
      * 执行看广告任务
      */
     private boolean doWatchAdTask() {
-        NodeInfo watchAd = findByText("去领取");
-        if (watchAd != null) {
+        NodeInfo button = findByText("去领取");
+        NodeInfo watchAd = findByText("限时任务赚金币");
+        if (watchAd == null) {
+            watchAd = findByText("看广告赚金币");
+        }
+        if (watchAd != null && button != null) {
             Log.e(TAG, "开始执行看广告任务");
             ActionUtils.click(watchAd);
             minSleepTime = 30000;
@@ -142,8 +158,8 @@ public class DouyinFastScript extends BaseScript {
         if (shopping != null) {
             Log.e(TAG, "开始执行逛街任务");
             ActionUtils.click(shopping);
-            minSleepTime = 5000;
-            maxSleepTime = 6000;
+            minSleepTime = 1000;
+            maxSleepTime = 2000;
             return true;
         }
         Log.e(TAG, "检测不到去逛街");
@@ -151,13 +167,22 @@ public class DouyinFastScript extends BaseScript {
     }
 
     private boolean swipeShopping() {
-        NodeInfo shopping = findByText("去逛街");
+        NodeInfo shopping = findById("mj");
         if (shopping != null) {
-            ActionUtils.scrollForward();
+            Log.e(TAG, "正在逛街中");
+            int x = MyApplication.getAppInstance().getScreenWidth() / 2;
+            int fromY = MyApplication.getAppInstance().getScreenHeight() - bottomMargin;
+            int toY = 100;
+
+            new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
             minSleepTime = 1000;
-            maxSleepTime = 3000;
+            maxSleepTime = 2000;
+            if (!shopping.getText().contains("秒")) {
+                ActionUtils.pressBack();
+            }
             return true;
         }
+        Log.e(TAG, "不在逛街中");
         return false;
     }
 
@@ -202,11 +227,46 @@ public class DouyinFastScript extends BaseScript {
             Log.e(TAG, "领取成功");
             ActionUtils.click(watchAd);
             // 还原回默认的时间间隔
-            minSleepTime = MIN_SLEEP_TIME;
-            maxSleepTime = MAX_SLEEP_TIME;
+            minSleepTime = 2000;
+            maxSleepTime = 3000;
             return;
         }
         Log.e(TAG, "检测不到领取成功");
+    }
+
+    /**
+     * 执行看广告任务
+     */
+    private boolean checkReWatchAdDialog() {
+        NodeInfo watchAd = findByText("再看一个视频额外");
+        NodeInfo getReward = findByText("领取奖励");
+        if (watchAd != null && getReward != null) {
+            Log.e(TAG, "开始执行再看一个视频任务");
+            ActionUtils.click(getReward);
+            minSleepTime = 30000;
+            maxSleepTime = 34000;
+            return true;
+        }
+        Log.e(TAG, "检测不到再看一个视频任务");
+        return false;
+    }
+
+    /**
+     * 评价弹窗,点击开心收下
+     *
+     * @return
+     */
+    private boolean appraiseDialog() {
+        NodeInfo getReward = findByText("开心收下");
+        if (getReward != null) {
+            Log.e(TAG, "开始执行开心收下");
+            ActionUtils.click(getReward);
+            minSleepTime = 3000;
+            maxSleepTime = 3400;
+            return true;
+        }
+        Log.e(TAG, "检测不到开心收下");
+        return false;
     }
 
 
