@@ -51,6 +51,8 @@ public class DouyinFastScript extends BaseScript {
         NodeInfo dailyTask = findByText("日常任务");
         if (dailyTask != null) {
             // 已进入任务页面
+            // 签到
+            if (sign()) return;
             // 立即签到
             if (signInNow()) return;
             // 签到完立即点击看广告视频再赚
@@ -111,6 +113,22 @@ public class DouyinFastScript extends BaseScript {
             return true;
         }
         Log.e(TAG, "检测不到右上角红包按键");
+        return false;
+    }
+
+    /**
+     * 立即签到
+     */
+    private boolean sign() {
+        NodeInfo watchAd = findByText("签到");
+        if (watchAd != null) {
+            Log.e(TAG, "开始执行签到");
+            ActionUtils.click(watchAd);
+            minSleepTime = 3000;
+            maxSleepTime = 5000;
+            return true;
+        }
+        Log.e(TAG, "检测不到签到");
         return false;
     }
 
