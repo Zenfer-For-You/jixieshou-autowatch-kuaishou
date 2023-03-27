@@ -51,18 +51,16 @@ public class DouyinFastScript extends BaseScript {
         NodeInfo dailyTask = findByText("日常任务");
         if (dailyTask != null) {
             // 已进入任务页面
+            // 点击看广告视频再赚
+            if (watchAdAfterOpenTreasureChests()) return;
             // 签到
-            if (sign()) return;
+//            if (sign()) return;
             // 立即签到
             if (signInNow()) return;
-            // 签到完立即点击看广告视频再赚
-            if (watchAdAfterOpenTreasureChests()) return;
-            // 开宝箱领金币
-            if (openTreasureChests()) return;
-            // 开宝箱后立即点弹窗看广告视频
-            if (watchAdAfterOpenTreasureChests()) return;
             // 看广告任务
             if (doWatchAdTask()) return;
+            // 开宝箱领金币
+            if (openTreasureChests()) return;
             // 去逛街任务
             if (doShoppingTask()) return;
         }

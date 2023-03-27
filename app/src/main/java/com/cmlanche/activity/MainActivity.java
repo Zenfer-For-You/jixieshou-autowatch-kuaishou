@@ -1,6 +1,10 @@
 package com.cmlanche.activity;
 
 import android.Manifest;
+import android.app.ActivityManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -28,6 +32,7 @@ import com.cmlanche.common.leancloud.CheckUpdateTask;
 import com.cmlanche.core.service.MyAccessibilityService;
 import com.cmlanche.core.utils.AccessibilityUtils;
 import com.cmlanche.floatwindow.PermissionUtil;
+import com.cmlanche.jixieshou.BuildConfig;
 import com.cmlanche.jixieshou.R;
 import com.cmlanche.model.AppInfo;
 import com.cmlanche.model.TaskInfo;
@@ -46,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private TaskListAdapter taskListAdapter;
     private MaterialButton startBtn;
+    private MaterialButton stopBtn;
     private TextView descriptionView;
     private List<AppInfo> appInfos = new ArrayList<>();
 
@@ -79,8 +85,15 @@ public class MainActivity extends AppCompatActivity {
         });
         descriptionView = findViewById(R.id.description);
 
-        startBtn = findViewById(R.id.startBtn);
+        stopBtn = findViewById(R.id.stopBtn);
+        stopBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopAccessibilityService();
+            }
+        });
 
+        startBtn = findViewById(R.id.startBtn);
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,16 +154,29 @@ public class MainActivity extends AppCompatActivity {
             appInfo.setPeriod(1);
             appInfo.setFree(true);
             appInfos.add(appInfo);
-            taskListAdapter.notifyDataSetChanged();
         } else {
             cardView.setVisibility(View.GONE);
             fab.setVisibility(View.VISIBLE);
             appInfos.addAll(taskInfo.getAppInfos());
-            taskListAdapter.notifyDataSetChanged();
         }
+        taskListAdapter.notifyDataSetChanged();
 
         // 检查更新
         new CheckUpdateTask(this).execute();
+    }
+
+    private void stopAccessibilityService() {
+        ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        ComponentName componentName = new ComponentName(BuildConfig.APPLICATION_ID, MyAccessibilityService.class.getName());
+        PendingIntent intent = am.getRunningServiceControlPanel(componentName);
+        if (intent != null) {
+            MyApplication.getAppInstance().getAccessbilityService().disableSelf();
+            stopService(new Intent(this, MyAccessibilityService.class));
+            am.killBackgroundProcesses(getPackageName());
+            System.exit(0);
+        } else {
+            Toast.makeText(this, "服务未启动", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

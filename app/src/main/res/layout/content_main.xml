@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.cmlanche.activity.MainActivity"
-    android:background="@color/bg"
     tools:showIn="@layout/activity_main">
 
     <LinearLayout
@@ -23,11 +23,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="34sp"
-                android:textColor="#0d0e56"
-                android:letterSpacing="0.01"
                 android:layout_marginStart="20dp"
-                android:text="机械手任务" />
+                android:letterSpacing="0.01"
+                android:text="机械手任务"
+                android:textColor="#0d0e56"
+                android:textSize="34sp" />
 
             <ImageView
                 android:id="@+id/info"
@@ -35,8 +35,8 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
-                android:visibility="gone"
-                android:src="@drawable/info" />
+                android:src="@drawable/info"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -44,13 +44,13 @@
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="#7b7c98"
-            android:lineSpacingExtra="8sp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="32dp"
-            android:text="@string/description" />
+            android:lineSpacingExtra="8sp"
+            android:text="@string/description"
+            android:textColor="#7b7c98"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/deviceNo"
@@ -68,11 +68,11 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="21dp"
+            android:layout_marginEnd="20dp"
+            android:background="#fff"
             app:cardCornerRadius="8dp"
-            app:cardElevation="2dp"
-            android:background="#fff">
+            app:cardElevation="2dp">
 
             <RelativeLayout
                 android:id="@+id/emptyLayout"
@@ -89,19 +89,19 @@
                         android:id="@+id/card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:maxWidth="70dp"
                         android:layout_gravity="center"
+                        android:maxWidth="70dp"
                         android:src="@drawable/ic_cards" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="#472fc8"
-                        android:lineSpacingExtra="8sp"
-                        android:gravity="center_horizontal"
                         android:layout_marginTop="31dp"
-                        android:text="添加你的第一个任务" />
+                        android:gravity="center_horizontal"
+                        android:lineSpacingExtra="8sp"
+                        android:text="添加你的第一个任务"
+                        android:textColor="#472fc8"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -120,12 +120,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
                 android:layout_marginTop="21dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="32dp"
+                android:background="#fff"
                 app:cardCornerRadius="8dp"
-                app:cardElevation="2dp"
-                android:background="#fff">
+                app:cardElevation="2dp">
 
                 <com.cmlanche.widget.ListViewForScrollView
                     android:id="@+id/taskListView"
@@ -141,14 +141,30 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
-                android:textAppearance="?android:attr/textAppearanceLargeInverse"
                 android:layout_weight="1"
-                android:textSize="15sp"
-                android:textColor="#ffffff"
-                android:gravity="center"
                 android:backgroundTint="@color/colorPrimary"
-                app:cornerRadius="30dp"
-                android:text="点我启动" />
+                android:gravity="center"
+                android:text="点我启动"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                android:textColor="#ffffff"
+                android:textSize="15sp"
+                app:cornerRadius="30dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/stopBtn"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/warning"
+                android:gravity="center"
+                android:text="停止服务并关闭app"
+                android:textAppearance="?android:attr/textAppearanceLargeInverse"
+                android:textColor="#ffffff"
+                android:textSize="15sp"
+                app:cornerRadius="30dp" />
         </LinearLayout>
 
     </LinearLayout>
