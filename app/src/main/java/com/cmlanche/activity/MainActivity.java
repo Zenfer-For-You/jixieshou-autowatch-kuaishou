@@ -3,6 +3,8 @@ package com.cmlanche.activity;
 import android.Manifest;
 import android.app.ActivityManager;
 import android.app.PendingIntent;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +28,6 @@ import androidx.core.app.ActivityCompat;
 import com.alibaba.fastjson.JSON;
 import com.cmlanche.adapter.TaskListAdapter;
 import com.cmlanche.application.MyApplication;
-import com.cmlanche.common.DeviceUtils;
 import com.cmlanche.common.SPService;
 import com.cmlanche.common.leancloud.CheckUpdateTask;
 import com.cmlanche.core.service.MyAccessibilityService;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     private CardView cardView;
     private ListView taskListView;
+    private TextView deviceNo;
     private FloatingActionButton fab;
     private TaskListAdapter taskListAdapter;
     private MaterialButton startBtn;
@@ -130,16 +132,29 @@ public class MainActivity extends AppCompatActivity {
                 MyApplication.getAppInstance().startTask(appInfos);
             }
         });
-
-        TextView textView = findViewById(R.id.deviceNo);
-        textView.setText("设备号：" + DeviceUtils.getDeviceSN());
-
+        deviceNo = findViewById(R.id.deviceNo);
+        deviceNo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ClipboardManager manager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                manager.setPrimaryClip(ClipData.newPlainText("activity", deviceNo.getText().toString()));
+                Toast.makeText(MainActivity.this, "复制成功", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
         this.initData();
+    }
+
+    public void setActivityName() {
+        if (MyApplication.getAppInstance().getAccessbilityService() != null) {
+            deviceNo.setText(MyApplication.getAppInstance().getAccessbilityService().activityName.toString());
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        setActivityName();
     }
 
     private void initData() {
