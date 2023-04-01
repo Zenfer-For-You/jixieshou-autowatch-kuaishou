@@ -29,6 +29,8 @@ public class DouyinFastScript extends BaseScript {
     private int minSleepTime = MIN_SLEEP_TIME;
     private int maxSleepTime = MAX_SLEEP_TIME;
 
+    private String[] shoppingId = new String[]{"mj","mh"};
+
 
     public DouyinFastScript(AppInfo appInfo) {
         super(appInfo);
@@ -184,20 +186,23 @@ public class DouyinFastScript extends BaseScript {
     }
 
     private boolean swipeShopping() {
-        NodeInfo shopping = findById("mj");
-        if (shopping != null) {
-            Log.e(TAG, "正在逛街中");
-            int x = MyApplication.getAppInstance().getScreenWidth() / 2;
-            int fromY = MyApplication.getAppInstance().getScreenHeight() - bottomMargin;
-            int toY = 100;
+        NodeInfo shopping;
+        for (int i = 0; i < shoppingId.length; i++) {
+            shopping = findById(shoppingId[i]);
+            if (shopping != null) {
+                Log.e(TAG, "正在逛街中");
+                int x = MyApplication.getAppInstance().getScreenWidth() / 2;
+                int fromY = MyApplication.getAppInstance().getScreenHeight() - bottomMargin;
+                int toY = 100;
 
-            new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
-            minSleepTime = 1000;
-            maxSleepTime = 2000;
-            if (!shopping.getText().contains("秒")) {
-                ActionUtils.pressBack();
+                new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
+                minSleepTime = 1000;
+                maxSleepTime = 2000;
+                if (!shopping.getText().contains("秒")) {
+                    ActionUtils.pressBack();
+                }
+                return true;
             }
-            return true;
         }
         Log.e(TAG, "不在逛街中");
         return false;
