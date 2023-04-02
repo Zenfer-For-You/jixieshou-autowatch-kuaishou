@@ -29,6 +29,7 @@ public class DouyinFastScript extends BaseScript {
     private int minSleepTime = MIN_SLEEP_TIME;
     private int maxSleepTime = MAX_SLEEP_TIME;
 
+    private String[] mainId = new String[]{"lcc","le3","lc3"};
     private String[] shoppingId = new String[]{"mj","mh"};
 
 
@@ -94,23 +95,17 @@ public class DouyinFastScript extends BaseScript {
      * 点击进入任务页面
      */
     private boolean goTaskHomePage() {
-        NodeInfo lcc = findById("lcc");
-        if (lcc != null) {
-            Log.e(TAG, "右上角红包按键进入任务页面");
-            // 还在首页,点击右上角红包按键进入任务页面
-            ActionUtils.click(lcc);
-            minSleepTime = 5000;
-            maxSleepTime = 8000;
-            return true;
-        }
-        NodeInfo lc3 = findById("lc3");
-        if (lc3 != null) {
-            Log.e(TAG, "右上角红包按键进入任务页面");
-            // 还在首页,点击右上角红包按键进入任务页面
-            ActionUtils.click(lc3);
-            minSleepTime = 5000;
-            maxSleepTime = 8000;
-            return true;
+        NodeInfo taskBtn ;
+        for (int i = 0; i < mainId.length; i++) {
+            taskBtn = findById(mainId[i]);
+            if (taskBtn != null) {
+                Log.e(TAG, "右上角红包按键进入任务页面");
+                // 还在首页,点击右上角红包按键进入任务页面
+                ActionUtils.click(taskBtn);
+                minSleepTime = 5000;
+                maxSleepTime = 8000;
+                return true;
+            }
         }
         Log.e(TAG, "检测不到右上角红包按键");
         return false;
@@ -172,7 +167,7 @@ public class DouyinFastScript extends BaseScript {
      * 执行逛街任务
      */
     private boolean doShoppingTask() {
-        NodeInfo matchText = findByText("浏览低价商品90秒");
+        NodeInfo matchText = findByText("浏览低价商品");
         NodeInfo shopping = findByText("去逛街");
         if (shopping != null && matchText != null) {
             Log.e(TAG, "开始执行逛街任务");
