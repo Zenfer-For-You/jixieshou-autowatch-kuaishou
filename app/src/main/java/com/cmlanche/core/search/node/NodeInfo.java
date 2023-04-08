@@ -381,7 +381,7 @@ public class NodeInfo {
                 ", xpath='" + xpath + '\'' +
                 ", bounds='" + bounds + '\'' +
                 ", packageName='" + packageName + '\'' +
-                "visiableRect=" + visiableRect +
+                ", visiableRect=" + visiableRect +
                 ", rect=" + rect +
                 ", apptype='" + apptype + '\'' +
                 '}';

@@ -3,9 +3,12 @@ package com.cmlanche.scripts;
 import android.graphics.Point;
 import android.util.Log;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.cmlanche.application.MyApplication;
 import com.cmlanche.core.executor.builder.SwipStepBuilder;
+import com.cmlanche.core.search.FindByRect;
 import com.cmlanche.core.search.node.NodeInfo;
+import com.cmlanche.core.service.MyAccessibilityService;
 import com.cmlanche.core.utils.ActionUtils;
 import com.cmlanche.model.AppInfo;
 
@@ -29,8 +32,7 @@ public class DouyinFastScript extends BaseScript {
     private int minSleepTime = MIN_SLEEP_TIME;
     private int maxSleepTime = MAX_SLEEP_TIME;
 
-    private String[] mainId = new String[]{"lcc","le3","lc3"};
-    private String[] shoppingId = new String[]{"mj","mh"};
+    private String[] shoppingId = new String[]{"mj", "mh"};
 
 
     public DouyinFastScript(AppInfo appInfo) {
@@ -53,6 +55,7 @@ public class DouyinFastScript extends BaseScript {
 
         NodeInfo dailyTask = findByText("日常任务");
         if (dailyTask != null) {
+            SizeUtils.px2dp(529f);
             // 已进入任务页面
             // 点击看广告视频再赚
             if (watchAdAfterOpenTreasureChests()) return;
@@ -80,9 +83,9 @@ public class DouyinFastScript extends BaseScript {
      * 检测当前页面是否静态广告页
      */
     private boolean checkStaticAdPage() {
-        if (MyApplication.getAppInstance().getAccessbilityService().isCurrentStaticAdActivity) {
+        if (MyAccessibilityService.currentActivity.equals(MyAccessibilityService.ACTIVITY_AD_CLASS)) {
             Log.e(TAG, "关闭静态广告页面");
-            MyApplication.getAppInstance().getAccessbilityService().isCurrentStaticAdActivity = false;
+            MyAccessibilityService.currentActivity = "";
             ActionUtils.pressBack();
             minSleepTime = 2000;
             maxSleepTime = 3000;
@@ -95,17 +98,14 @@ public class DouyinFastScript extends BaseScript {
      * 点击进入任务页面
      */
     private boolean goTaskHomePage() {
-        NodeInfo taskBtn ;
-        for (int i = 0; i < mainId.length; i++) {
-            taskBtn = findById(mainId[i]);
-            if (taskBtn != null) {
-                Log.e(TAG, "右上角红包按键进入任务页面");
-                // 还在首页,点击右上角红包按键进入任务页面
-                ActionUtils.click(taskBtn);
-                minSleepTime = 5000;
-                maxSleepTime = 8000;
-                return true;
-            }
+        NodeInfo taskBtn = FindByRect.find(35, 192);
+        if (taskBtn != null) {
+            Log.e(TAG, "右上角红包按键进入任务页面");
+            // 还在首页,点击右上角红包按键进入任务页面
+            ActionUtils.click(taskBtn);
+            minSleepTime = 3000;
+            maxSleepTime = 5000;
+            return true;
         }
         Log.e(TAG, "检测不到右上角红包按键");
         return false;
@@ -181,23 +181,21 @@ public class DouyinFastScript extends BaseScript {
     }
 
     private boolean swipeShopping() {
-        NodeInfo shopping;
-        for (int i = 0; i < shoppingId.length; i++) {
-            shopping = findById(shoppingId[i]);
-            if (shopping != null) {
-                Log.e(TAG, "正在逛街中");
-                int x = MyApplication.getAppInstance().getScreenWidth() / 2;
-                int fromY = MyApplication.getAppInstance().getScreenHeight() - bottomMargin;
-                int toY = 100;
+        if (MyAccessibilityService.currentActivity.contains(MyAccessibilityService.ACTIVITY_SHOPPING)) {
+            Log.e(TAG, "正在逛街中");
+            int x = MyApplication.getAppInstance().getScreenWidth() / 2;
+            int fromY = MyApplication.getAppInstance().getScreenHeight() - bottomMargin;
+            int toY = 100;
 
-                new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
-                minSleepTime = 1000;
-                maxSleepTime = 2000;
-                if (!shopping.getText().contains("秒")) {
-                    ActionUtils.pressBack();
-                }
-                return true;
+            new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
+            minSleepTime = 1000;
+            maxSleepTime = 2000;
+            NodeInfo shopping = findByText("秒");
+            if (shopping == null) {
+                MyAccessibilityService.currentActivity = "";
+                ActionUtils.pressBack();
             }
+            return true;
         }
         Log.e(TAG, "不在逛街中");
         return false;
@@ -211,8 +209,8 @@ public class DouyinFastScript extends BaseScript {
         if (openTreasureChests != null) {
             Log.e(TAG, "开始执行开宝箱得金币");
             ActionUtils.click(openTreasureChests);
-            minSleepTime = 4000;
-            maxSleepTime = 6000;
+            minSleepTime = 3000;
+            maxSleepTime = 5000;
             return true;
         }
         Log.e(TAG, "检测不到开宝箱得金币");

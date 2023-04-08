@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setActivityName() {
         if (MyApplication.getAppInstance().getAccessbilityService() != null) {
-            deviceNo.setText(MyApplication.getAppInstance().getAccessbilityService().activityName.toString());
+//            deviceNo.setText(MyApplication.getAppInstance().getAccessbilityService().activityName.toString());
         }
     }
 

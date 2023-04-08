@@ -25,16 +25,17 @@ import java.util.List;
 import java.util.Map;
 
 public class MyAccessibilityService extends AccessibilityService {
+    // 静态广告页面
+    public static final String ACTIVITY_AD_CLASS = "com.bytedance.ies.android.rifle.container.RifleContainerActivity";
+    public static final String ACTIVITY_MAIN_OR_TASK = "com.ss.android.ugc.aweme.main.MainActivity";
+    public static final String ACTIVITY_SHOPPING = "com.ss.android.ugc.aweme.bullet.ui.BulletContainerActivity";
 
     public ArrayList<CharSequence> activityName = new ArrayList<>();
     private int noRootCount = 0;
     private static final int maxNoRootCount = 3;
     private boolean isWork = false;
 
-    public boolean isCurrentStaticAdActivity = false;
-
-    // 静态广告页面
-    private static final String ACTIVITY_AD_CLASS = "com.bytedance.ies.android.rifle.container.RifleContainerActivity";
+    public static String currentActivity = ACTIVITY_MAIN_OR_TASK;
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -47,9 +48,8 @@ public class MyAccessibilityService extends AccessibilityService {
                 if (Constants.pkg_douyin_fast.equals(source.getPackageName())) {
                     activityName.add(activityClass);
                 }
-                if (activityClass.contains(ACTIVITY_AD_CLASS)) {
-                    isCurrentStaticAdActivity = true;
-                }
+                Logger.d("Zenfer" + event);
+                currentActivity = activityClass;
             }
         }
     }
