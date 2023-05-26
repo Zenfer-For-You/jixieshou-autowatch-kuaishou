@@ -8,6 +8,7 @@ import com.cmlanche.core.utils.Utils;
 import org.json.JSONObject;
 
 /**
+ *
  */
 public class NodeInfo {
 
@@ -94,6 +95,8 @@ public class NodeInfo {
     private int nodeHash;
     private String packageName = "";
     private boolean isTextFromDes = false;
+
+    private AccessibilityNodeInfo node;
 
     public String getClassName() {
         return className;
@@ -414,5 +417,13 @@ public class NodeInfo {
         displayRect.bottom = screenHeight;
         nodeRectClone.intersect(displayRect);
         this.setVisiableRect(nodeRectClone);
+    }
+
+    public AccessibilityNodeInfo getNode() {
+        return node;
+    }
+
+    public void setNode(AccessibilityNodeInfo node) {
+        this.node = node;
     }
 }

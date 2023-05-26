@@ -46,7 +46,7 @@ public class TaskExecutor {
     public void startTask(final TaskInfo taskInfo) {
         this.taskInfo = taskInfo;
         this.initStartFlags();
-        if(scriptThread == null) {
+        if (scriptThread == null) {
             scriptThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -56,6 +56,9 @@ public class TaskExecutor {
                             currentTestApp = info;
                             IScript script = null;
                             switch (info.getPkgName()) {
+                                case Constants.pkg_dingding:
+                                    script = new DingDingScript(info);
+                                    break;
                                 case Constants.pkg_douyin_fast:
                                     script = new DouyinFastScript(info);
                                     break;
@@ -99,10 +102,11 @@ public class TaskExecutor {
                         }
                     });
 
-                    while (System.currentTimeMillis() - st < allTime) {
+//                    while (System.currentTimeMillis() - st < allTime) {
+                    while (true) {
                         try {
                             if (currentScript != null) {
-                                if(isForcePause()) {
+                                if (isForcePause()) {
                                     setPause(true);
                                 } else {
                                     setPause(!currentScript.isDestinationPage());
@@ -129,7 +133,7 @@ public class TaskExecutor {
             });
             monitorThread.start();
         } else {
-            if(currentScript != null) {
+            if (currentScript != null) {
                 currentScript.resetStartTime();
                 currentScript.startApp();
             } else {

@@ -30,7 +30,8 @@ public abstract class BaseScript implements IScript {
         resetStartTime();
 
         // 总时间
-        while ((System.currentTimeMillis() - startTime < getTimeout())) {
+//        while ((System.currentTimeMillis() - startTime < getTimeout())) {
+        while (true) {
             try {
                 if (isPause()) {
                     Utils.sleep(2000);
