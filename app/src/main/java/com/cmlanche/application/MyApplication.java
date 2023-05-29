@@ -1,5 +1,15 @@
 package com.cmlanche.application;
 
+import static com.cmlanche.core.bus.EventType.accessiblity_connected;
+import static com.cmlanche.core.bus.EventType.no_roots_alert;
+import static com.cmlanche.core.bus.EventType.pause_becauseof_not_destination_page;
+import static com.cmlanche.core.bus.EventType.pause_byhand;
+import static com.cmlanche.core.bus.EventType.refresh_time;
+import static com.cmlanche.core.bus.EventType.roots_ready;
+import static com.cmlanche.core.bus.EventType.set_accessiblity;
+import static com.cmlanche.core.bus.EventType.start_task;
+import static com.cmlanche.core.bus.EventType.unpause_byhand;
+
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
@@ -37,16 +47,6 @@ import com.umeng.commonsdk.UMConfigure;
 import java.util.List;
 
 import cn.leancloud.AVOSCloud;
-
-import static com.cmlanche.core.bus.EventType.accessiblity_connected;
-import static com.cmlanche.core.bus.EventType.no_roots_alert;
-import static com.cmlanche.core.bus.EventType.pause_becauseof_not_destination_page;
-import static com.cmlanche.core.bus.EventType.pause_byhand;
-import static com.cmlanche.core.bus.EventType.refresh_time;
-import static com.cmlanche.core.bus.EventType.roots_ready;
-import static com.cmlanche.core.bus.EventType.set_accessiblity;
-import static com.cmlanche.core.bus.EventType.start_task;
-import static com.cmlanche.core.bus.EventType.unpause_byhand;
 
 public class MyApplication extends Application {
 

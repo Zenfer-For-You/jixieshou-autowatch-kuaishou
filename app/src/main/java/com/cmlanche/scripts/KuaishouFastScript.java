@@ -24,9 +24,9 @@ public class KuaishouFastScript extends BaseScript {
     protected void executeScript() {
         if(!isCheckedWozhidaole) {
             // 检查是否有青少年模式
-            NodeInfo nodeInfo = findByText("*为呵护未成年人健康*");
+            NodeInfo nodeInfo = findByContainText("*为呵护未成年人健康*");
             if(nodeInfo != null) {
-                nodeInfo = findByText("我知道了");
+                nodeInfo = findByContainText("我知道了");
                 if(nodeInfo != null) {
                     isCheckedWozhidaole = true;
                     ActionUtils.click(nodeInfo);

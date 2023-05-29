@@ -46,7 +46,7 @@ public class DouyinFastScript extends BaseScript {
         // 当前处于首页,点击右上角的红包按键 lcc 进入任务页面
         if (goTaskHomePage()) return;
 
-        NodeInfo dailyTask = findByText("日常任务");
+        NodeInfo dailyTask = findByContainText("日常任务");
         if (dailyTask != null) {
             // 已进入任务页面
             // 点击看广告视频再赚
@@ -101,7 +101,7 @@ public class DouyinFastScript extends BaseScript {
      * 立即签到
      */
     private boolean sign() {
-        NodeInfo watchAd = findByText("签到");
+        NodeInfo watchAd = findByContainText("签到");
         if (watchAd != null) {
             Log.e(TAG, "开始执行签到");
             ActionUtils.click(watchAd);
@@ -117,7 +117,7 @@ public class DouyinFastScript extends BaseScript {
      * 立即签到
      */
     private boolean signInNow() {
-        NodeInfo watchAd = findByText("立即签到");
+        NodeInfo watchAd = findByContainText("立即签到");
         if (watchAd != null) {
             Log.e(TAG, "开始执行立即签到");
             ActionUtils.click(watchAd);
@@ -133,10 +133,10 @@ public class DouyinFastScript extends BaseScript {
      * 执行看广告任务
      */
     private boolean doWatchAdTask() {
-        NodeInfo button = findByText("去领取");
-        NodeInfo watchAd = findByText("限时任务赚金币");
+        NodeInfo button = findByContainText("去领取");
+        NodeInfo watchAd = findByContainText("限时任务赚金币");
         if (watchAd == null) {
-            watchAd = findByText("看广告赚金币");
+            watchAd = findByContainText("看广告赚金币");
         }
         if (watchAd != null && button != null) {
             Log.e(TAG, "开始执行看广告任务");
@@ -153,8 +153,8 @@ public class DouyinFastScript extends BaseScript {
      * 执行逛街任务
      */
     private boolean doShoppingTask() {
-        NodeInfo matchText = findByText("浏览低价商品90秒");
-        NodeInfo shopping = findByText("去逛街");
+        NodeInfo matchText = findByContainText("浏览低价商品90秒");
+        NodeInfo shopping = findByContainText("去逛街");
         if (shopping != null && matchText != null) {
             Log.e(TAG, "开始执行逛街任务");
             ActionUtils.click(shopping);
@@ -190,7 +190,7 @@ public class DouyinFastScript extends BaseScript {
      * 开宝箱得金币
      */
     private boolean openTreasureChests() {
-        NodeInfo openTreasureChests = findByText("开宝箱得金币");
+        NodeInfo openTreasureChests = findByContainText("开宝箱得金币");
         if (openTreasureChests != null) {
             Log.e(TAG, "开始执行开宝箱得金币");
             ActionUtils.click(openTreasureChests);
@@ -206,7 +206,7 @@ public class DouyinFastScript extends BaseScript {
      * 看广告视频再赚
      */
     private boolean watchAdAfterOpenTreasureChests() {
-        NodeInfo openTreasureChests = findByText("看广告视频再赚");
+        NodeInfo openTreasureChests = findByContainText("看广告视频再赚");
         if (openTreasureChests != null) {
             Log.e(TAG, "开始执行看广告视频再赚");
             ActionUtils.click(openTreasureChests);
@@ -222,7 +222,7 @@ public class DouyinFastScript extends BaseScript {
      * 判断领取奖励是否成功
      */
     private void successfulRewardClaim() {
-        NodeInfo watchAd = findByText("领取成功");
+        NodeInfo watchAd = findByContainText("领取成功");
         if (watchAd != null) {
             Log.e(TAG, "领取成功");
             ActionUtils.click(watchAd);
@@ -238,8 +238,8 @@ public class DouyinFastScript extends BaseScript {
      * 执行看广告任务
      */
     private boolean checkReWatchAdDialog() {
-        NodeInfo watchAd = findByText("再看一个视频额外");
-        NodeInfo getReward = findByText("领取奖励");
+        NodeInfo watchAd = findByContainText("再看一个视频额外");
+        NodeInfo getReward = findByContainText("领取奖励");
         if (watchAd != null && getReward != null) {
             Log.e(TAG, "开始执行再看一个视频任务");
             ActionUtils.click(getReward);
@@ -257,7 +257,7 @@ public class DouyinFastScript extends BaseScript {
      * @return
      */
     private boolean appraiseDialog() {
-        NodeInfo getReward = findByText("开心收下");
+        NodeInfo getReward = findByContainText("开心收下");
         if (getReward != null) {
             Log.e(TAG, "开始执行开心收下");
             ActionUtils.click(getReward);
@@ -273,9 +273,9 @@ public class DouyinFastScript extends BaseScript {
     private void swipeOnMainActivity() {
         if (!isCheckedWozhidaole) {
             // 检查是否有青少年模式
-            NodeInfo nodeInfo = findByText("*为呵护未成年人健康*");
+            NodeInfo nodeInfo = findByContainText("*为呵护未成年人健康*");
             if (nodeInfo != null) {
-                nodeInfo = findByText("我知道了");
+                nodeInfo = findByContainText("我知道了");
                 if (nodeInfo != null) {
                     isCheckedWozhidaole = true;
                     ActionUtils.click(nodeInfo);

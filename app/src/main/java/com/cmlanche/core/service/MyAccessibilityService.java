@@ -44,7 +44,6 @@ public class MyAccessibilityService extends AccessibilityService {
                 if (source.getPackageName().equals(Constants.pkg_dingding)) {
                     currentActivity = activityClass;
                 }
-
             }
         }
     }

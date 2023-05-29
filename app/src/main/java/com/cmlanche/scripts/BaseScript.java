@@ -3,6 +3,7 @@ package com.cmlanche.scripts;
 import com.cmlanche.application.MyApplication;
 import com.cmlanche.common.PackageUtils;
 import com.cmlanche.core.search.FindById;
+import com.cmlanche.core.search.FindByMatchText;
 import com.cmlanche.core.search.FindByText;
 import com.cmlanche.core.search.node.NodeInfo;
 import com.cmlanche.core.utils.Logger;
@@ -90,8 +91,11 @@ public abstract class BaseScript implements IScript {
         return FindById.find(id);
     }
 
-    protected NodeInfo findByText(String text) {
+    protected NodeInfo findByContainText(String text) {
         return FindByText.find(text);
+    }
+    protected NodeInfo findByMatchText(String text) {
+        return FindByMatchText.find(text);
     }
 
     protected void runOnUiThread(Runnable runnable) {
