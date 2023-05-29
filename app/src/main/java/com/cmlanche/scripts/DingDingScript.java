@@ -41,26 +41,56 @@ public class DingDingScript extends BaseScript {
     }
 
     private void goTaskPageAndDoTask() {
-       if (sign()){
-
-       }
+        inputPwd();
+        privacyAgree();
+        loginClick();
     }
-
 
 
     /**
      * 立即签到
      */
-    private boolean sign() {
-        NodeInfo watchAd = findByText("请输入密码");
-        if (watchAd != null) {
-            Log.e(TAG, "开始执行签到");
-            ActionUtils.click(watchAd);
-            minSleepTime = 3000;
-            maxSleepTime = 5000;
+    private boolean inputPwd() {
+        String pwd = "qwertyuiop123456";
+        NodeInfo pwdEdit = findByText("请输入密码");
+        if (pwdEdit != null) {
+            Log.e(TAG, "开始执行登录");
+            String currentPwd = pwdEdit.getNode().getText().toString();
+            if (!pwd.equals(currentPwd)) {
+                ActionUtils.inputText(pwdEdit.getNode(), pwd);
+            }
+
+            minSleepTime = 2000;
+            maxSleepTime = 3000;
             return true;
         }
-        Log.e(TAG, "检测不到签到");
+        Log.e(TAG, "检测不到密码输入框");
+        return false;
+    }
+
+    private boolean privacyAgree(){
+        NodeInfo privacy = findById("cb_privacy");
+        if (privacy != null) {
+            if (!privacy.getNode().isChecked()) {
+                ActionUtils.click(privacy);
+            }
+            minSleepTime = 2000;
+            maxSleepTime = 3000;
+            return true;
+        }
+        Log.e(TAG, "检测不到服务协议 CheckBox");
+        return false;
+    }
+
+    private boolean loginClick(){
+        NodeInfo login = findByText("登录");
+        if (login != null) {
+            ActionUtils.click(login);
+            minSleepTime = 2000;
+            maxSleepTime = 3000;
+            return true;
+        }
+        Log.e(TAG, "检测不到登录按键");
         return false;
     }
 

@@ -2,6 +2,8 @@ package com.cmlanche.core.utils;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
@@ -32,6 +34,20 @@ public class ActivityUtils {
             return activityName;//获取类名
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static String getCurrentActivityNameV2(Context context, AccessibilityEvent event) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(event.getPackageName().toString(), PackageManager.GET_ACTIVITIES);
+            ActivityInfo[] activities = packageInfo.activities;
+            if (activities != null && activities.length > 0) {
+                return activities[0].name;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException(e);
         }
         return "";
     }

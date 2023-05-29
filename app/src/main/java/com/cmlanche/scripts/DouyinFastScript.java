@@ -42,8 +42,6 @@ public class DouyinFastScript extends BaseScript {
     }
 
     private void goTaskPageAndDoTask() {
-        // 检测静态广告业
-        if (checkStaticAdPage()) return;
 
         // 当前处于首页,点击右上角的红包按键 lcc 进入任务页面
         if (goTaskHomePage()) return;
@@ -71,21 +69,6 @@ public class DouyinFastScript extends BaseScript {
         if (appraiseDialog()) return;
 
         successfulRewardClaim();
-    }
-
-    /**
-     * 检测当前页面是否静态广告页
-     */
-    private boolean checkStaticAdPage() {
-        if (MyApplication.getAppInstance().getAccessbilityService().isCurrentStaticAdActivity) {
-            Log.e(TAG, "关闭静态广告页面");
-            MyApplication.getAppInstance().getAccessbilityService().isCurrentStaticAdActivity = false;
-            ActionUtils.pressBack();
-            minSleepTime = 2000;
-            maxSleepTime = 3000;
-            return true;
-        }
-        return false;
     }
 
     /**

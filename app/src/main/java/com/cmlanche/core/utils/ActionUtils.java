@@ -2,9 +2,6 @@ package com.cmlanche.core.utils;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.GestureDescription;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.graphics.Path;
 import android.os.Build;
 import android.os.Bundle;
@@ -110,17 +107,11 @@ public class ActionUtils {
      * @param nodeInfo nodeInfo
      * @param text     text
      */
-    public void inputText(Context context, AccessibilityNodeInfo nodeInfo, String text) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Bundle arguments = new Bundle();
-            arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, text);
-            nodeInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("label", text);
-            clipboard.setPrimaryClip(clip);
-            nodeInfo.performAction(AccessibilityNodeInfo.ACTION_FOCUS);
-            nodeInfo.performAction(AccessibilityNodeInfo.ACTION_PASTE);
-        }
+    public static void inputText(AccessibilityNodeInfo nodeInfo, String text) {
+        Bundle arguments = new Bundle();
+        nodeInfo.refresh();
+        nodeInfo.performAction(AccessibilityNodeInfo.ACTION_FOCUS);
+        arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, text);
+        nodeInfo.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
     }
 }

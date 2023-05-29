@@ -160,7 +160,7 @@ public class Dumper {
     private void dumpNodeRec(AccessibilityNodeInfo node, int index, String parentXpath) throws IOException {
         NodeInfo myrect = convertAccessbilityNode(node);
 
-        myrect.setNode(node);
+        myrect.setNode(AccessibilityNodeInfo.obtain(node));
         int count = node.getChildCount();
 
         myrect.setLeaf(count == 0);

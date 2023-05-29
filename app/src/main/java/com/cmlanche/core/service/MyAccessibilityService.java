@@ -19,37 +19,32 @@ import com.cmlanche.core.utils.Logger;
 import com.cmlanche.core.utils.StringUtil;
 import com.cmlanche.core.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MyAccessibilityService extends AccessibilityService {
 
-    public ArrayList<CharSequence> activityName = new ArrayList<>();
     private int noRootCount = 0;
     private static final int maxNoRootCount = 3;
     private boolean isWork = false;
 
-    public boolean isCurrentStaticAdActivity = false;
+    public String currentActivity = "";
 
-    // 静态广告页面
-    private static final String ACTIVITY_AD_CLASS = "com.bytedance.ies.android.rifle.container.RifleContainerActivity";
+    // 登录页面
+    private static final String ACTIVITY_LOGIN = "com.alibaba.android.user.login.SignUpWithPwdActivity";
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         Logger.d("MyAccessibilityService event: " + event);
         AccessibilityNodeInfo source = event.getSource();
-
         if (source != null) {
             if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
                 String activityClass = ActivityUtils.getCurrentActivityName(MyApplication.getAppInstance().getApplicationContext(), event);
-                if (Constants.pkg_douyin_fast.equals(source.getPackageName())) {
-                    activityName.add(activityClass);
+                if (source.getPackageName().equals(Constants.pkg_dingding)) {
+                    currentActivity = activityClass;
                 }
-                if (activityClass.contains(ACTIVITY_AD_CLASS)) {
-                    isCurrentStaticAdActivity = true;
-                }
+
             }
         }
     }
