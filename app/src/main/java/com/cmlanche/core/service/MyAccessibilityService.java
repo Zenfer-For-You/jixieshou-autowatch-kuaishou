@@ -39,6 +39,9 @@ public class MyAccessibilityService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
+        if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED){
+            return;
+        }
         Logger.d("MyAccessibilityService event: " + event);
         AccessibilityNodeInfo source = event.getSource();
 
@@ -50,9 +53,12 @@ public class MyAccessibilityService extends AccessibilityService {
                 }
                 Logger.d("Zenfer" + event);
                 currentActivity = activityClass;
+                Logger.d("Zenfer currentActivity = " + currentActivity);
             }
         }
     }
+
+
 
     @Override
     public void onInterrupt() {
@@ -140,6 +146,7 @@ public class MyAccessibilityService extends AccessibilityService {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Logger.d("MyAccessibilityService on start command");
+
         return super.onStartCommand(intent, flags, startId);
     }
 

@@ -29,7 +29,7 @@ public class ActivityUtils {
             String activityName = context.getPackageManager().getActivityInfo(componentName, 0).toString();
             activityName = activityName.substring(activityName.indexOf(" "), activityName.indexOf("}"));
             Log.e("当前窗口activity", "=================" + activityName);
-            return activityName;//获取类名
+            return activityName.trim();//获取类名
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

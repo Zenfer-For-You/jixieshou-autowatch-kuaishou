@@ -83,7 +83,7 @@ public class DouyinFastScript extends BaseScript {
      * 检测当前页面是否静态广告页
      */
     private boolean checkStaticAdPage() {
-        if (MyAccessibilityService.currentActivity.equals(MyAccessibilityService.ACTIVITY_AD_CLASS)) {
+        if (MyAccessibilityService.currentActivity.contains(MyAccessibilityService.ACTIVITY_AD_CLASS)) {
             Log.e(TAG, "关闭静态广告页面");
             MyAccessibilityService.currentActivity = "";
             ActionUtils.pressBack();
