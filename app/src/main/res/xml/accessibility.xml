@@ -21,4 +21,4 @@
     android:canPerformGestures="true"
     android:description="@string/accessibility_description"
     android:accessibilityFlags="flagDefault|flagIncludeNotImportantViews|flagReportViewIds|flagRetrieveInteractiveWindows"
-    ></accessibility-service>
+    />

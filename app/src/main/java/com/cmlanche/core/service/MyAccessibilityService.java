@@ -42,21 +42,27 @@ public class MyAccessibilityService extends AccessibilityService {
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED){
             return;
         }
-        Logger.d("MyAccessibilityService event: " + event);
+        Logger.d("MyAccessibilityService event: " + event.getEventType());
         AccessibilityNodeInfo source = event.getSource();
 
         if (source != null) {
-            if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
-                String activityClass = ActivityUtils.getCurrentActivityName(MyApplication.getAppInstance().getApplicationContext(), event);
-                if (Constants.pkg_douyin_fast.equals(source.getPackageName())) {
-                    if (activityName.size()>100){
-                        activityName.clear();
-                    }
-                    activityName.add(activityClass);
+            switch (event.getEventType()){
+                case AccessibilityEvent.TYPE_VIEW_CLICKED:{
+                    Logger.d("Zenfer click event: " + event);
+
                 }
-                Logger.d("Zenfer" + event);
-                currentActivity = activityClass;
-                Logger.d("Zenfer currentActivity = " + currentActivity);
+                case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:{
+                    String activityClass = ActivityUtils.getCurrentActivityName(MyApplication.getAppInstance().getApplicationContext(), event);
+                    if (Constants.pkg_douyin_fast.equals(source.getPackageName())) {
+                        if (activityName.size()>100){
+                            activityName.clear();
+                        }
+                        activityName.add(activityClass);
+                    }
+                    Logger.d("Zenfer" + event);
+                    currentActivity = activityClass;
+                    Logger.d("Zenfer currentActivity = " + currentActivity);
+                }
             }
         }
     }
