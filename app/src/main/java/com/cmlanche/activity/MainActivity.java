@@ -29,7 +29,6 @@ import com.alibaba.fastjson.JSON;
 import com.cmlanche.adapter.TaskListAdapter;
 import com.cmlanche.application.MyApplication;
 import com.cmlanche.common.SPService;
-import com.cmlanche.common.leancloud.CheckUpdateTask;
 import com.cmlanche.core.service.MyAccessibilityService;
 import com.cmlanche.core.utils.AccessibilityUtils;
 import com.cmlanche.floatwindow.PermissionUtil;
@@ -177,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
         taskListAdapter.notifyDataSetChanged();
 
         // 检查更新
-        new CheckUpdateTask(this).execute();
     }
 
     private void stopAccessibilityService() {

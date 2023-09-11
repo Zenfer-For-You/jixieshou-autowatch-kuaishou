@@ -49,6 +49,9 @@ public class MyAccessibilityService extends AccessibilityService {
             if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
                 String activityClass = ActivityUtils.getCurrentActivityName(MyApplication.getAppInstance().getApplicationContext(), event);
                 if (Constants.pkg_douyin_fast.equals(source.getPackageName())) {
+                    if (activityName.size()>100){
+                        activityName.clear();
+                    }
                     activityName.add(activityClass);
                 }
                 Logger.d("Zenfer" + event);

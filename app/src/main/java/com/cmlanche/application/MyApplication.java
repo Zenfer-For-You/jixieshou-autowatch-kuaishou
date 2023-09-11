@@ -1,5 +1,15 @@
 package com.cmlanche.application;
 
+import static com.cmlanche.core.bus.EventType.accessiblity_connected;
+import static com.cmlanche.core.bus.EventType.no_roots_alert;
+import static com.cmlanche.core.bus.EventType.pause_becauseof_not_destination_page;
+import static com.cmlanche.core.bus.EventType.pause_byhand;
+import static com.cmlanche.core.bus.EventType.refresh_time;
+import static com.cmlanche.core.bus.EventType.roots_ready;
+import static com.cmlanche.core.bus.EventType.set_accessiblity;
+import static com.cmlanche.core.bus.EventType.start_task;
+import static com.cmlanche.core.bus.EventType.unpause_byhand;
+
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
@@ -16,7 +26,6 @@ import com.cmlanche.activity.NewOrEditTaskActivity;
 import com.cmlanche.activity.TaskTypeListActivity;
 import com.cmlanche.common.PackageUtils;
 import com.cmlanche.common.SPService;
-import com.cmlanche.common.leancloud.InitTask;
 import com.cmlanche.core.bus.BusEvent;
 import com.cmlanche.core.bus.BusManager;
 import com.cmlanche.core.service.MyAccessibilityService;
@@ -31,22 +40,9 @@ import com.cmlanche.model.AppInfo;
 import com.cmlanche.model.TaskInfo;
 import com.cmlanche.scripts.TaskExecutor;
 import com.squareup.otto.Subscribe;
-import com.umeng.analytics.MobclickAgent;
-import com.umeng.commonsdk.UMConfigure;
 
 import java.util.List;
 
-import cn.leancloud.AVOSCloud;
-
-import static com.cmlanche.core.bus.EventType.accessiblity_connected;
-import static com.cmlanche.core.bus.EventType.no_roots_alert;
-import static com.cmlanche.core.bus.EventType.pause_becauseof_not_destination_page;
-import static com.cmlanche.core.bus.EventType.pause_byhand;
-import static com.cmlanche.core.bus.EventType.refresh_time;
-import static com.cmlanche.core.bus.EventType.roots_ready;
-import static com.cmlanche.core.bus.EventType.set_accessiblity;
-import static com.cmlanche.core.bus.EventType.start_task;
-import static com.cmlanche.core.bus.EventType.unpause_byhand;
 
 public class MyApplication extends Application {
 
@@ -69,8 +65,6 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Logger.setDebug(true);
-        initUmeng();
-        initLeancloud();
         SPService.init(this);
         appInstance = this;
 
@@ -127,23 +121,6 @@ public class MyApplication extends Application {
                 this.isFirstConnectAccessbilityService = true;
                 setFloatText("机械手已准备就绪，点我启动");
                 break;
-        }
-    }
-
-    private void initUmeng() {
-        try {
-            UMConfigure.init(getApplicationContext(), "你的友盟appid", "main", UMConfigure.DEVICE_TYPE_PHONE, null);
-            MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
-        } catch (Exception e) {
-        }
-    }
-
-    private void initLeancloud() {
-        try {
-            AVOSCloud.initialize("你的leancloud appid", "你的leancloud appsecret");
-            new InitTask().execute();
-        } catch (Exception e) {
-            Logger.e(e.getMessage(), e);
         }
     }
 

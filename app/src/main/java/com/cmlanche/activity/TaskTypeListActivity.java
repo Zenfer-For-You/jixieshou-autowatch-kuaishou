@@ -7,20 +7,18 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.alibaba.fastjson.JSON;
 import com.cmlanche.adapter.AppListAdapter;
 import com.cmlanche.application.MyApplication;
-import com.cmlanche.common.leancloud.CheckPayTask;
-import com.cmlanche.common.leancloud.GetTaskListTask;
 import com.cmlanche.jixieshou.R;
 import com.cmlanche.model.AppInfo;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * 任务类型列表
@@ -75,8 +73,6 @@ public class TaskTypeListActivity extends AppCompatActivity {
             }
         });
 
-        new GetTaskListTask(this).execute();
-        new CheckPayTask(this).execute();
     }
 
     public void updateList(List<AppInfo> list) {

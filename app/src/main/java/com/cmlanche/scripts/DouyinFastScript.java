@@ -53,7 +53,7 @@ public class DouyinFastScript extends BaseScript {
         // 当前处于首页,点击右上角的红包按键 lcc 进入任务页面
         if (goTaskHomePage()) return;
 
-        NodeInfo dailyTask = findByText("日常任务");
+        NodeInfo dailyTask = findByText("赚钱任务");
         if (dailyTask != null) {
             SizeUtils.px2dp(529f);
             // 已进入任务页面
@@ -72,14 +72,13 @@ public class DouyinFastScript extends BaseScript {
         }
         // 滑动至到时间结束领取到奖励
         if (swipeShopping()) return;
-
         if (checkReWatchAdDialog()) return;
         if (appraiseDialog()) return;
 
         successfulRewardClaim();
     }
 
-    /**
+    /**K
      * 检测当前页面是否静态广告页
      */
     private boolean checkStaticAdPage() {
@@ -189,7 +188,7 @@ public class DouyinFastScript extends BaseScript {
 
             new SwipStepBuilder().setPoints(new Point(x, fromY), new Point(x, toY)).get().execute();
             minSleepTime = 1000;
-            maxSleepTime = 2000;
+            maxSleepTime = 3000;
             NodeInfo shopping = findByText("秒");
             if (shopping == null) {
                 MyAccessibilityService.currentActivity = "";
